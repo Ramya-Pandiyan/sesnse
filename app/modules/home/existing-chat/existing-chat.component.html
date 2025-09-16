@@ -1,0 +1,78 @@
+<div class="dashboard-container">
+  <div class="chat-area">
+
+    <!-- Header (always visible) -->
+    <div class="chat-header">
+      <h1 class="app-title">Sense</h1>
+      <p class="app-subtitle">AI-Powered Underwriting, Claims and Reinsurance Assistant</p>
+    </div>
+
+    <!-- Messages area (scrollable) -->
+    <div class="chat-messages" #chatMessage>
+      
+      <!-- Show messages if any -->
+      <div *ngFor="let message of chatMessages; let i = index"
+           class="message-wrapper"
+           [class.user-message]="message.type === 'user'"
+           [class.bot-message]="message.type === 'bot'"
+           [style.animation-delay]="i * 0.3 + 's'">
+
+        <div class="message-bubble">
+          <div class="message-content">{{ message.content }}</div>
+        </div>
+
+        <!-- Action icons -->
+        <div class="message-icons" 
+             [ngClass]="{'left-icons': message.type === 'bot', 'right-icons': message.type === 'user'}">
+          
+          <!-- Bot icons -->
+          <ng-container *ngIf="message.type === 'bot'">
+            <div class="icon-wrapper">
+              <button class="icon-btn" title="Copy" (click)="onCopyClick(message)">
+                <img src="assets/icons/copy-icon.svg" alt="Copy">
+              </button>
+              <span class="tooltip" *ngIf="copiedMessageId === message.id">Copied!</span>
+            </div>
+            <button class="icon-btn" title="Share">
+              <img src="assets/icons/share-icon.svg" alt="Share">
+            </button>
+            <button class="icon-btn" title="Retry">
+              <img src="assets/icons/retry-icon.svg" alt="Retry">
+            </button>
+          </ng-container>
+
+          <!-- User icons -->
+          <ng-container *ngIf="message.type === 'user'">
+            <div class="icon-wrapper">
+              <button class="icon-btn" title="Copy" (click)="onCopyClick(message)">
+                <img src="assets/icons/copy-icon.svg" alt="Copy">
+              </button>
+              <span class="tooltip" *ngIf="copiedMessageId === message.id">Copied!</span>
+            </div>
+            <button class="icon-btn" title="Edit">
+              <img src="assets/icons/edit-icon.svg" alt="Edit">
+            </button>
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- Placeholder when no messages -->
+      <div *ngIf="chatMessages.length === 0" class="empty-placeholder">
+        <!-- Start the conversation… -->
+      </div>
+    </div>
+<div class="loading-messages" *ngIf="isLoading">
+      <div class="loading-bubble">
+        <div class="typing-indicator">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+    <!-- Input box (always pinned to bottom) -->
+    <app-chat-interface 
+      (messageSubmitted)="onMessageSubmit($event)"
+      [disabled]="isLoading">
+    </app-chat-interface>
+
+  </div>
+</div>

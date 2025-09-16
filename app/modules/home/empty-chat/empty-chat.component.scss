@@ -1,0 +1,114 @@
+.empty-chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;     // horizontal centering
+  justify-content: flex-start; // content starts from top
+  min-height: 100vh;
+  padding: 140px 40px 40px; // top padding gives breathing space
+  text-align: center;
+  margin-left: 160px;
+}
+
+.chat-header {
+  margin-bottom: 48px;
+
+  .app-title {
+    font-size: 48px;
+    font-weight: 600;
+    // color: #6155F5;
+    background: linear-gradient(to right, #005AFF 20%, #C375FF 80%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .app-subtitle {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+.empty-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 50px 100px;
+  max-width: 700px;
+  box-shadow: 0 8px 24px rgba(97, 85, 245, 0.15);
+  transition: transform 0.2s ease;
+  // &:hover {
+  //   transform: translateY(-4px);
+  // }
+
+  .empty-icon {
+    margin-bottom: 24px;
+    color: #6155F5;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #222;
+    margin: 0 0 12px 0;
+  }
+
+  p {
+    font-size: 16px;
+    color: #555;
+    margin: 0 0 32px 0;
+    line-height: 1.5;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    // background: linear-gradient(90deg, #6155F5, #9b8eff);
+    background: linear-gradient(to right, #005AFF, #C375FF);
+   
+    cursor: pointer;
+    transition: all 0.3s ease;
+    svg {
+      stroke: #fff;
+    }
+    &:hover {
+      background: linear-gradient(90deg, #C375FF, #005AFF);
+      // box-shadow: 0 4px 12px rgba(97, 85, 245, 0.35);
+      transform: translateY(0.1px);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .chat-header {
+    .app-title {
+      font-size: 36px;
+    }
+    .app-subtitle {
+      font-size: 15px;
+    }
+  }
+  .empty-card {
+    padding: 24px 20px;
+    h2 {
+      font-size: 20px;
+    }
+    p {
+      font-size: 14px;
+    }
+  }
+}
+
+a {
+  color: #6155F5;
+  text-decoration: underline;
+  cursor: pointer;
+}

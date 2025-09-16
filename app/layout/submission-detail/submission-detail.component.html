@@ -1,0 +1,1007 @@
+<div class="submission-container">
+  <div class="content-scroll">
+
+    <!-- Header Section -->
+    <div class="header-section">
+      <div class="header-content">
+        <div class="submission-header">
+          <button class="back-button" (click)="goBack()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+
+          </button>
+          <h1 class="submission-title">{{ submissionDetail?.email?.insured_name || 'Unknown Insured' }}</h1>
+          <span class="submission-id">{{ submissionDetail?.submission_id }}</span>
+        </div>
+      </div>
+      <!-- <button class="btn-primary" (click)="openNotesPanel()">Take Notes</button> -->
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="navigation-tabs">
+      <button *ngFor="let tab of tabs" class="nav-tab" [class.active]="activeTab === tab.id"
+        (click)="setActiveTab(tab.id)">
+        <span class="tab-icon">
+          <img [src]="activeTab === tab.id ? tab.icon : tab.icon" alt="{{ tab.label }} Icon">
+        </span>
+        <span class="tab-text">{{ tab.label }}</span>
+      </button>
+    </div>
+
+    <div #selectableArea class="selectable-text">
+
+      <!-- Content Area -->
+      <div class="content-area" #chatMessage>
+
+        <!-- Overview Tab -->
+        <div *ngIf="activeTab === 'overview'" class="content-panel">
+
+          <!-- Submission Profile Section -->
+          <div class="profile-section">
+            <div class="profile-grid">
+
+              <!-- Left Side - Submission Profile -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    </svg>
+                    Submission Profile
+                  </h3>
+                </div>
+                <div class="card-content">
+                  <div class="profile-details">
+                    <div class="detail-row">
+                      <span class="detail-label">Submission Type</span>
+                      <span class="detail-value">{{
+                        formatValue(submissionDetail?.submission_overview?.submission_profile?.submission_type)
+                        }}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">TIV</span>
+                      <span class="detail-value">{{
+                        formatValue(submissionDetail?.submission_overview?.submission_profile?.tiv) }}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">Primary LOB</span>
+                      <span class="detail-value">{{
+                        formatValue(submissionDetail?.submission_overview?.submission_profile?.primary_lob) }}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">Primary Occupancy</span>
+                      <span class="detail-value">{{
+                        formatValue(submissionDetail?.submission_overview?.submission_profile?.primary_occupancy)
+                        }}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">Total Locations</span>
+                      <span class="detail-value">{{
+                        submissionDetail?.submission_overview?.submission_profile?.total_locations }}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">States</span>
+                      <span class="detail-value">{{
+                        formatArrayValue(submissionDetail?.submission_overview?.submission_profile?.states) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Side - Target Terms -->
+              <div class="profile-card">
+                <div class="card-header">
+                  <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M9 11H5a2 2 0 00-2 2v7a2 2 0 002 2h14a2 2 0 002-2v-7a2 2 0 00-2-2h-4M9 11V9a3 3 0 116 0v2M9 11h6"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    Target Terms
+                  </h3>
+                </div>
+                <div class="card-content">
+                  <div class="profile-details">
+                    <div class="detail-row">
+                      <span class="detail-label">Target Premium</span>
+                      <span class="detail-value">{{
+                        formatValue(submissionDetail?.submission_overview?.submission_profile?.target_premium) }}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">Incumbent Carrier</span>
+                      <span class="detail-value">{{
+                        formatValue(submissionDetail?.submission_overview?.submission_profile?.incumbent_carrier)
+                        }}</span>
+                    </div>
+                    <div class="detail-row">
+                      <span class="detail-label">Expiration Date</span>
+                      <span class="detail-value">{{
+                        formatValue(submissionDetail?.submission_overview?.submission_profile?.expiration_date)
+                        }}</span>
+                    </div>
+                    <div class="detail-row"
+                      *ngFor="let deductible of submissionDetail?.submission_overview?.submission_profile?.requested_deductibles">
+                      <span class="detail-label">{{ deductible.coverage }} Deductible</span>
+                      <span class="detail-value">{{ deductible.amount }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Analysis Summary Section -->
+          <div class="analysis-summary-section">
+            <div class="analysis-summary-card">
+              <div class="card-header">
+                <h3>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  Analysis Summary
+                </h3>
+              </div>
+              <div class="card-content">
+
+                <!-- Overall Assessment -->
+                <div class="risk-summary">
+                  <div class="recommendation-badge" [ngClass]="getRecommendationClass()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                      <path
+                        *ngIf="submissionDetail?.submission_overview?.risk_analysis?.overall_recommendation?.status.toLowerCase() == 'good to proceed'"
+                        d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" stroke="green"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <path
+                        *ngIf="submissionDetail?.submission_overview?.risk_analysis?.overall_recommendation?.status.toLowerCase() == 'decline'"
+                        d="M18 6L6 18M6 6l12 12" stroke="red" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                      <path
+                        *ngIf="submissionDetail?.submission_overview?.risk_analysis?.overall_recommendation?.status.toLowerCase() == 'conditional'"
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                        stroke="orange" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    {{ formatValue(submissionDetail?.submission_overview?.risk_analysis?.overall_recommendation?.status)
+                    }}
+                  </div>
+                </div>
+
+                <div class="recommendation-reason">
+                  <p>{{ submissionDetail?.submission_overview?.risk_analysis?.overall_recommendation?.reason }}</p>
+                  <div class="see-more-section">
+                    <button class="see-more-btn" (click)="toggleAnalysisSummaryExpanded()">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path *ngIf="!isAnalysisSummaryExpanded" d="M19 9l-7 7-7-7" stroke="currentColor"
+                          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path *ngIf="isAnalysisSummaryExpanded" d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      {{ isAnalysisSummaryExpanded ? 'See Less' : 'See More' }}
+                    </button>
+                  </div>
+
+                  <div class="analysis-details" *ngIf="isAnalysisSummaryExpanded">
+                    <div class="est-type">
+                      <div class="analysis-detail-item">
+                        <h4>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path
+                              d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          Established
+                        </h4>
+                        <p>{{ submissionDetail?.submission_overview?.risk_analysis?.established }}</p>
+                      </div>
+
+                      <div class="analysis-detail-item">
+                        <h4>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path
+                              d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"
+                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          Business Type
+                        </h4>
+                        <p>{{ submissionDetail?.submission_overview?.risk_analysis?.business_type }}</p>
+                      </div>
+                    </div>
+
+                    <!-- Thread-like connection for analysis items -->
+                    <div class="analysis-thread">
+                      <div class="thread-item">
+                        <div class="thread-dot"></div>
+                        <div class="thread-content">
+                          <h4>Risk Appetite & UW Guidelines</h4>
+                          <p>{{
+                            submissionDetail?.submission_overview?.risk_analysis?.risk_appetite_and_uw_guidelines?.summary
+                            }}</p>
+                        </div>
+                      </div>
+                      <div class="thread-item">
+                        <div class="thread-dot"></div>
+                        <div class="thread-content">
+                          <h4>Competitiveness</h4>
+                          <p>{{ submissionDetail?.submission_overview?.risk_analysis?.competitiveness?.summary }}</p>
+                        </div>
+                      </div>
+                      <div class="thread-item">
+                        <div class="thread-dot"></div>
+                        <div class="thread-content">
+                          <h4>Exposure Profile</h4>
+                          <p>{{ submissionDetail?.submission_overview?.risk_analysis?.exposure_profile?.summary }}</p>
+                        </div>
+                      </div>
+                      <div class="thread-item">
+                        <div class="thread-dot"></div>
+                        <div class="thread-content">
+                          <h4>Loss History</h4>
+                          <p>{{ submissionDetail?.submission_overview?.risk_analysis?.loss_history?.summary }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Risk Signals Accordion -->
+          <div class="accordion-container">
+            <div class="accordion-item">
+              <div class="accordion-header" (click)="toggleAccordion('risk-signals')">
+                <h3>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  Risk Signals
+                </h3>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                  [class.rotated]="expandedAccordions['risk-signals']">
+                  <path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+              <div class="accordion-content-risk" *ngIf="expandedAccordions['risk-signals']">
+                <div class="risk-signals-grid-two-col">
+
+                  <!-- Positive Signals -->
+                  <div class="positive-signals-col">
+                    <h4>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 12l2 2 4-4M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      Positive Signals
+                    </h4>
+                    <div class="signal-item"
+                      *ngFor="let item of submissionDetail?.submission_overview?.risk_signals?.positives | keyvalue">
+                      <h5>{{ formatSignalTitle(item.key) }}</h5>
+                      <p>{{ item.value }}</p>
+                    </div>
+                  </div>
+
+                  <!-- Negative Signals -->
+                  <div class="negative-signals-col">
+                    <h4>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                      Negative Signals
+                    </h4>
+                    <div class="signal-item"
+                      *ngFor="let item of submissionDetail?.submission_overview?.risk_signals?.negatives | keyvalue">
+                      <h5>{{ formatSignalTitle(item.key) }}</h5>
+                      <p>{{ item.value }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="market-intelligence-section">
+            <div class="section-header">
+              <h3 style="margin-left: 100px !important;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 17H7A5 5 0 017 7h2m0 10v-5a5 5 0 119.584-4.556M9 17H20a5 5 0 00-10.416-3.556"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                Market Intelligence
+              </h3>
+            </div>
+
+            <div class="carousel-container">
+              <button class="carousel-control prev" (click)="prevSlide()">‹</button>
+              <div class="carousel-wrapper">
+                <div class="carousel-track" [style.transform]="'translateX(' + (-currentSlide * 100) + '%)'">
+                  <div class="carousel-slide" *ngFor="let item of getMarketIntelligenceEntries(); let i = index"
+                    [class.active]="currentSlide === i+1">
+                    <div class="intelligence-card">
+                      <div class="card-overlay">
+                        <div class="intelligence-header">
+                          <h4>{{ item.title }}</h4>
+                        </div>
+                        <div class="intelligence-content">
+                          <p>{{item.content}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <button class="carousel-control next" (click)="nextSlide()">›</button>
+            </div>
+          </div>
+
+          <div *ngIf="recommendedActions?.length" class="recommended-actions-container">
+            <h3>Recommended Actions</h3>
+            <div class="actions-list">
+              <button *ngFor="let action of recommendedActions" class="action-btn" (click)="onSendMessage(action)">
+                {{ action }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Insured Tab -->
+        <div *ngIf="activeTab === 'insured'" class="content-panel">
+
+          <div class="insured-content">
+            <!-- Insured Profile Card -->
+            <div class="insured-profile-card">
+              <div class="card-header">
+                <h3>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                  Insured Profile
+                </h3>
+              </div>
+              <div class="card-content">
+                <div class="profile-details">
+                  <div class="detail-row">
+                    <span class="detail-label">Established</span>
+                    <span class="detail-value">{{ submissionDetail?.insured?.insured_profile?.established }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Business Type</span>
+                    <span class="detail-value">{{ submissionDetail?.insured?.insured_profile?.business_type }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Industry</span>
+                    <span class="detail-value">{{ submissionDetail?.insured?.insured_profile?.industry }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Headquarters</span>
+                    <span class="detail-value">{{ submissionDetail?.insured?.insured_profile?.headquarters }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Employees</span>
+                    <span class="detail-value">{{ submissionDetail?.insured?.insured_profile?.size_and_scale?.employees
+                      }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Annual Revenue</span>
+                    <span class="detail-value">{{
+                      submissionDetail?.insured?.insured_profile?.size_and_scale?.annual_revenue }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Ownership Structure</span>
+                    <span class="detail-value">{{ submissionDetail?.insured?.insured_profile?.ownership_structure
+                      }}</span>
+                  </div>
+                  <div class="detail-row">
+                    <span class="detail-label">Key Executives</span>
+                    <span class="detail-value">{{
+                      formatArrayValue(submissionDetail?.insured?.insured_profile?.key_executives) }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Analysis Sections with Thread -->
+            <div class="analysis-sections">
+              <div class="section-divider">
+                <h3>Detailed Analysis</h3>
+              </div>
+
+              <div class="analysis-thread">
+                <div class="thread-item"
+                  *ngFor="let section of submissionDetail?.insured?.analysis_sections; let i = index">
+                  <div class="thread-dot" [class.assessment]="section.section_title.includes('Assessment')"></div>
+                  <div class="thread-content">
+                    <div class="analysis-card" [class.assessment-card]="section.section_title.includes('Assessment')">
+                      <h3 [innerHTML]="section.section_title"></h3>
+                      <div class="narrative-section">
+                        <p class="narrative-text">{{ section.narrative }}</p>
+                        <button class="see-more-btn" (click)="section.narrativeExpanded = !section.narrativeExpanded">
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path *ngIf="!section.narrativeExpanded" d="M19 9l-7 7-7-7" stroke="currentColor"
+                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path *ngIf="section.narrativeExpanded" d="M5 15l7-7 7 7" stroke="currentColor"
+                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                          {{ section.narrativeExpanded ? 'See Less' : 'See More' }}
+                        </button>
+                      </div>
+
+                      <div class="key-findings-section"
+                        *ngIf="section.key_findings?.length && section.narrativeExpanded">
+                        <h4>Key Findings</h4>
+                        <ul class="key-findings-list">
+                          <li *ngFor="let finding of section.key_findings" class="key-finding-item">
+                            <span [innerHTML]="formatLinksInText(finding)"></span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exposure Details Tab -->
+        <div *ngIf="activeTab === 'exposure-details'" class="content-panel">
+          <div class="exposure-content">
+            <div class="subtabs">
+              <button class="sub-tab-btn" [class.active]="activeSubTab === 'narrative'"
+                (click)="setActiveSubTab('narrative')">
+                Narrative
+              </button>
+              <button class="sub-tab-btn" [class.active]="activeSubTab === 'visuals'"
+                (click)="setActiveSubTab('visuals')">
+                Visuals
+              </button>
+            </div>
+
+            <div class="tab-content">
+              <ng-container *ngIf="activeSubTab === 'narrative'">
+
+                <div class="risk-profile-section">
+                  <div class="profile-table-card">
+                    <div class="card-header">
+                      <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                          <path d="M3 3v18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                          <path d="M7 12l4-4 4 4 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        </svg>
+                        Risk Profile
+                      </h3>
+                    </div>
+                    <div class="card-content">
+                      <div class="profile-table">
+                        <div class="table-row" *ngFor="let item of submissionDetail?.sov?.[0]?.risk_profile | keyvalue">
+                          <div class="table-label">{{ formatSignalTitle(item.key) }}</div>
+                          <div class="table-value" [ngStyle]="{'color': getColor(item)}">
+                            {{ getRiskValue(item) }}
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Analysis Sections with Thread -->
+                <div class="analysis-sections">
+                  <div class="section-divider">
+                    <h3>Detailed Analysis</h3>
+                  </div>
+
+                  <div class="analysis-thread">
+                    <div class="thread-item"
+                      *ngFor="let section of submissionDetail?.sov?.[0]?.analysis_sections; let i = index">
+                      <div class="thread-dot" [class.assessment]="section.section_title.includes('Assessment')"></div>
+                      <div class="thread-content">
+                        <div class="analysis-card"
+                          [class.assessment-card]="section.section_title.includes('Assessment')">
+                          <h3 [innerHTML]="section.section_title"></h3>
+                          <p class="narrative-text">{{ section.narrative }}</p>
+                          <button *ngIf="section.bullets.length > maxBullets" class="see-more-btn"
+                            (click)="toggleBulletsExpanded(section)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                              <path *ngIf="!section.expanded" d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                              <path *ngIf="section.expanded" d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            {{ section.expanded ? 'See Less' : 'See More' }}
+                          </button>
+                          <div class="bullets-section" style="margin-top: 10px !important;"
+                            *ngIf="section.bullets?.length && section.expanded">
+                            <ul class="bullet-list">
+                              <li *ngFor="let bullet of getVisibleBullets(section.bullets); let j = index"
+                                class="bullet-item">{{ bullet }}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <!-- SOV Summary Tab -->
+              <ng-container *ngIf="activeSubTab === 'visuals'">
+
+                <!-- SOV Table (Hardcoded) -->
+                <div class="sov-table-section">
+                  <div class="sov-table-card">
+                    <div class="card-header">
+                      <h3>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Statement of Values Summary
+                      </h3>
+                    </div>
+                    <div class="card-content">
+                      <div class="sov-table">
+                        <div class="table-header">
+                          <div class="header-cell">Location</div>
+                          <div class="header-cell">Building Value</div>
+                          <div class="header-cell">Contents Value</div>
+                          <div class="header-cell">Construction</div>
+                          <div class="header-cell">Year Built</div>
+                        </div>
+                        <div class="table-row">
+                          <div class="table-cell">Building 1-7 (Small)</div>
+                          <div class="table-cell">$2,331,000 each</div>
+                          <div class="table-cell">$145,000 each</div>
+                          <div class="table-cell">Frame</div>
+                          <div class="table-cell">2007</div>
+                        </div>
+                        <div class="table-row">
+                          <div class="table-cell">Building 8-11 (Large)</div>
+                          <div class="table-cell">$4,801,000 each</div>
+                          <div class="table-cell">$253,000 each</div>
+                          <div class="table-cell">Frame</div>
+                          <div class="table-cell">2007</div>
+                        </div>
+                        <div class="table-row total-row">
+                          <div class="table-cell" style="margin-left: 25px;"><strong>Total</strong></div>
+                          <div class="table-cell"><strong>$33,926,384</strong></div>
+                          <div class="table-cell"><strong>$1,593,088</strong></div>
+                          <div class="table-cell"><strong>-</strong></div>
+                          <div class="table-cell"><strong>-</strong></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-section">
+                  <div class="charts-grid">
+                    <!-- Coverage Distribution Chart -->
+                    <div class="chart-card">
+                      <h3>Coverage Distribution</h3>
+                      <div class="chart-content">
+                        <div *ngIf="activeTab === 'exposure-details'" class="chart-container">
+                          <canvas #coverageChart width="200" height="200"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                          <div *ngFor="let item of submissionDetail?.sov?.[0]?.sov_charts?.coverageData; let i = index"
+                            class="legend-item">
+                            <div class="legend-color" [style.background-color]="chartColors[i]"></div>
+                            <span class="legend-label">{{ item.Coverage }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Occupancy Distribution Chart -->
+                    <div class="chart-card">
+                      <h3>Occupancy Distribution</h3>
+                      <div class="chart-content">
+                        <div class="chart-container">
+                          <canvas #occupancyChart width="200" height="200"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                          <div *ngFor="let item of submissionDetail?.sov?.[0]?.sov_charts?.occupancyData; let i = index"
+                            class="legend-item">
+                            <div class="legend-color" [style.background-color]="chartColors[i]"></div>
+                            <span class="legend-label">{{ item.Occupancy }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Construction Distribution Chart -->
+                    <div class="chart-card">
+                      <h3>Construction Distribution</h3>
+                      <div class="chart-content">
+                        <div class="chart-container">
+                          <canvas #constructionChart width="200" height="200"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                          <div
+                            *ngFor="let item of submissionDetail?.sov?.[0]?.sov_charts?.constructionData; let i = index"
+                            class="legend-item">
+                            <div class="legend-color" [style.background-color]="chartColors[i]"></div>
+                            <span class="legend-label">{{ item.Construction }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Year Built Distribution Chart -->
+                    <div class="chart-card">
+                      <h3>Year Built Distribution</h3>
+                      <div class="chart-content">
+                        <div class="chart-container">
+                          <canvas #yearBuiltChart width="200" height="200"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                          <div *ngFor="let item of submissionDetail?.sov?.[0]?.sov_charts?.yearBuiltData; let i = index"
+                            class="legend-item">
+                            <div class="legend-color" [style.background-color]="chartColors[i]"></div>
+                            <span class="legend-label">{{ item.Year }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loss Run Tab -->
+        <div *ngIf="activeTab === 'loss-run'" class="content-panel">
+          <div class="loss-run-content">
+            <!-- Loss Profile Table -->
+            <div class="subtabs">
+              <button class="sub-tab-btn" [class.active]="lossRunActiveSubTab === 'lrnarrative'"
+                (click)="setLossRunActiveSubTab('lrnarrative')">
+                Narrative
+              </button>
+              <button class="sub-tab-btn" [class.active]="lossRunActiveSubTab === 'lrvisuals'"
+                (click)="setLossRunActiveSubTab('lrvisuals')">
+                Visuals
+              </button>
+            </div>
+
+            <div class="tab-content">
+              <ng-container *ngIf="lossRunActiveSubTab === 'lrnarrative'">
+
+                <div class="loss-profile-section">
+                  <div class="profile-table-card">
+                    <div class="card-header">
+                      <h3>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M9 11H5a2 2 0 00-2 2v7a2 2 0 002 2h14a2 2 0 002-2v-7a2 2 0 00-2-2h-4M9 11V9a3 3 0 116 0v2M9 11h6"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        Loss Profile
+                      </h3>
+                    </div>
+                    <div class="card-content">
+                      <div class="profile-table">
+                        <div class="table-row"
+                          *ngFor="let item of submissionDetail?.loss_run?.[0]?.loss_profile | keyvalue">
+                          <div class="table-label">{{ formatSignalTitle(item.key) }}</div>
+                          <div class="table-value" [ngStyle]="{'color': getColor(item)}">
+                            {{ getLossValue(item) }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Analysis Sections with Thread -->
+                <div class="analysis-sections">
+                  <div class="section-divider">
+                    <h3>Detailed Analysis</h3>
+                  </div>
+
+                  <div class="analysis-thread">
+                    <div class="thread-item"
+                      *ngFor="let section of submissionDetail?.loss_run?.[0]?.analysis_sections; let i = index">
+                      <div class="thread-dot" [class.assessment]="section.section_title.includes('Assessment')"></div>
+                      <div class="thread-content">
+                        <div class="analysis-card"
+                          [class.assessment-card]="section.section_title.includes('Assessment')">
+                          <h3 [innerHTML]="section.section_title"></h3>
+                          <p class="narrative-text">{{ section.narrative }}</p>
+                          <button *ngIf="section.bullets.length > maxBullets" class="see-more-btn"
+                            (click)="toggleBulletsExpanded(section)">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                              <path *ngIf="!section.expanded" d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                              <path *ngIf="section.expanded" d="M5 15l7-7 7 7" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            {{ section.expanded ? 'See Less' : 'See More' }}
+                          </button>
+                          <div class="bullets-section" style="margin-top: 10px !important;"
+                            *ngIf="section.bullets?.length && section.expanded">
+                            <ul class="bullet-list">
+                              <li *ngFor="let bullet of getVisibleBullets(section.bullets); let j = index"
+                                class="bullet-item">{{ bullet }}</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="lossRunActiveSubTab === 'lrvisuals'">
+
+                <!-- Loss Trend Line Chart -->
+                <div class="chart-section loss-run">
+                  <div class="chart-card">
+                    <h3>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 3v18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M7 12l4-4 4 4 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                      Loss Trend Analysis
+                    </h3>
+                    <div class="chart-container">
+                      <canvas #lossRunChart width="600" height="300"></canvas>
+                    </div>
+
+                    <!-- Summary Statistics -->
+                    <div class="stats-grid">
+                      <div class="stat-card">
+                        <div class="stat-value">{{ getTotalClaims() }}</div>
+                        <div class="stat-label">Total Claims</div>
+                      </div>
+                      <div class="stat-card">
+                        <div class="stat-value">${{ getTotalIncurred() | number:'1.0-0' }}</div>
+                        <div class="stat-label">Total Incurred</div>
+                      </div>
+                      <div class="stat-card">
+                        <div class="stat-value">${{ getAveragePerClaim() | number:'1.0-0' }}</div>
+                        <div class="stat-label">Average per Claim</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <!-- Loss Distribution Charts -->
+                <div class="loss-distribution-section">
+                  <div class="charts-grid">
+
+                    <!-- CAT vs Attritional Chart -->
+                    <div class="chart-card">
+                      <h3>CAT vs Attritional</h3>
+                      <div class="chart-content">
+                        <div class="chart-container">
+                          <canvas #catVsAttritionalChart width="200" height="200"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                          <div
+                            *ngFor="let item of submissionDetail?.loss_run?.[0]?.pie_charts?.cat_vs_attritional; let i = index"
+                            class="legend-item">
+                            <div class="legend-color" [style.background-color]="chartColors[i]"></div>
+                            <span class="legend-label">{{ item.category }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Loss Cause Distribution Chart -->
+                    <div class="chart-card">
+                      <h3>Loss Cause Distribution</h3>
+                      <div class="chart-content">
+                        <div class="chart-container">
+                          <canvas #lossCauseChart width="200" height="200"></canvas>
+                        </div>
+                        <div class="chart-legend">
+                          <div
+                            *ngFor="let item of submissionDetail?.loss_run?.[0]?.pie_charts?.loss_cause_distribution; let i = index"
+                            class="legend-item">
+                            <div class="legend-color" [style.background-color]="chartColors[i]"></div>
+                            <span class="legend-label">{{ item.loss_cause }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+        <!-- Missing Information Tab -->
+        <div *ngIf="activeTab === 'missing-info'" class="content-panel">
+          <div class="missing-info-content">
+            <div class="missing-info-card">
+              <div class="card-header">
+                <h3>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                      stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  Required Information
+                </h3>
+              </div>
+              <div class="card-content">
+                <ul class="missing-info-list">
+                  <li *ngFor="let item of submissionDetail?.missing_info?.info" class="missing-info-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    {{ item }}
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br><br>
+
+        <!-- Action Section -->
+        <div class="action-section" *ngIf="activeTab === 'missing-info'">
+          <div class="action-card">
+            <div class="action-content">
+              <h3>Next Steps</h3>
+              <p>I've analyzed this submission and identified missing critical information. Would you like me to
+                generate a detailed request to the broker?</p>
+              <div class="action-buttons">
+                <button class="btn-secondary" (click)="openEmailPanel()">
+                  Preview Request
+                </button>
+                <button class="btn-primary" (click)="onSendEmailToBroker()">
+                  Send to Broker
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-messages" *ngIf="chatMessages.length > 0">
+          <div *ngFor="let message of chatMessages" class="message" [class.user-message]="message.type === 'user'"
+            [class.bot-message]="message.type === 'bot'">
+
+            <div class="message-content" [ngClass]="{'final': message.isFinal}">
+              {{ message.content }}
+            </div>
+
+            <!-- Render actions if any -->
+            <div *ngIf="message.actions?.length" class="cta-container">
+              <div class="cta-actions-list">
+                <button *ngFor="let act of message.actions" class="cta-btn" (click)="openEmailPanel()">
+                  {{ act.label }}
+                </button>
+              </div>
+            </div>
+
+            <div class="message-icons"
+              [ngClass]="{'left-icons': message.type === 'bot', 'right-icons': message.type === 'user'}">
+
+              <!-- Bot Icons -->
+              <ng-container *ngIf="message.type === 'bot' && !message.isCatStep">
+                <div class="icon-wrapper">
+                  <button class="icon-btn" title="Copy" (click)="onCopyClick(message)">
+                    <img src="assets/icons/copy-icon.svg" alt="Copy">
+                  </button>
+                  <span class="tooltip" *ngIf="copiedMessageId === message.id">Copied!</span>
+                </div>
+
+                <button class="icon-btn" title="Share">
+                  <img src="assets/icons/share-icon.svg" alt="Share">
+                </button>
+                <button class="icon-btn" title="Retry">
+                  <img src="assets/icons/retry-icon.svg" alt="Retry">
+                </button>
+              </ng-container>
+
+
+              <!-- User Icons -->
+              <ng-container *ngIf="message.type === 'user'">
+
+                <!-- Copy Button -->
+                <div class="icon-wrapper">
+                  <button class="icon-btn" title="Copy" (click)="onCopyClick(message)">
+                    <img src="assets/icons/copy-icon.svg" alt="Copy">
+                  </button>
+                  <span class="tooltip" *ngIf="copiedMessageId === message.id">Copied!</span>
+                </div>
+
+                <!-- <span class="tooltip" *ngIf="copiedMessageId === message.id">Copied!</span> -->
+
+                <button class="icon-btn" title="Edit">
+                  <img src="assets/icons/edit-icon.svg" alt="Edit">
+                </button>
+              </ng-container>
+
+            </div>
+            <!-- <div class="message-timestamp">{{ message.timestamp | date:'short' }}</div> -->
+          </div>
+        </div>
+        <div class="loading-messages" *ngIf="isBotLoading">
+          <div class="loading-bubble">
+            <div class="typing-indicator">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Interface -->
+
+    <!-- <div class="chat-section"> -->
+    <app-chat-interface (messageSubmitted)="onSendMessage($event)"
+      placeholder="Ask follow-up questions about this submission...">
+    </app-chat-interface>
+    <!-- </div> -->
+  </div>
+</div>
+
+<!-- Email Preview Modal -->
+<app-email-preview-panel [isOpen]="isEmailPanelOpen" [submissionId]="selectedSubmissionId" (close)="closeEmailPanel()"
+  (emailSent)="onEmailSent()">
+</app-email-preview-panel>
+
+<app-notes-panel [isOpen]="isNotesPanelOpen" [noteId]="selectedNoteId" (close)="closeNotesPanel()">
+</app-notes-panel>
+
+<!-- Loading State -->
+<div class="loading-overlay" *ngIf="isLoading">
+  <div class="loading-content">
+    <div class="loading-spinner"></div>
+    <p>Loading submission details...</p>
+  </div>
+</div>
+
+<app-right-sidebar *ngIf="showRightSidebar"></app-right-sidebar>
+
+<div class="selection-menu" *ngIf="selectionText"
+  [ngStyle]="{ top: menuPosition.y + 'px', left: menuPosition.x + 'px' }">
+  <button (click)="onDeepDive(selectionText)" style="border-right: 1px solid rgba(128, 128, 128, 0.168)">
+    <!-- <img src="assets/icons/quotes.svg" alt=""> -->Deep Dive
+  </button>
+  <button (click)="openPdfPreview(
+    'SUB-69069', 
+    '3b11a836-c336-4fd7-a4df-d4dfc9459723',
+    activeTab === 'exposure-details' 
+      ? 'https://sensedevdocs.blob.core.windows.net/emails-data/3b11a836-c336-4fd7-a4df-d4dfc9459723/sov_model.pdf?se=2026-05-16T13%3A30%3A56Z&sp=r&sv=2025-07-05&sr=b&sig=XJWSMyt/Ki/uu97EH14oxtHuDlcwoOoEtR0%2B2aYeTRc%3D'
+      : 'https://sensedevdocs.blob.core.windows.net/emails-data/3b11a836-c336-4fd7-a4df-d4dfc9459723/lr_model.pdf?se=2026-05-16T13%3A30%3A47Z&sp=r&sv=2025-07-05&sr=b&sig=J8pHMMvocdLvHU7c/2ZV8Gv8ldyO/zVbEU3SRbZJwro%3D'
+    )">
+    <!-- <img src="assets/icons/docc.svg" alt=""> -->Check Source
+  </button>
+</div>
+
+
+<app-right-panel [isOpen]="isRightPanelOpen" [panelTitle]="panelTitle" (closed)="isRightPanelOpen=false">
+  <app-pdf-preview [url]="pdfUrl"></app-pdf-preview>
+</app-right-panel>
+
+
+
+<!-- <app-pdf-preview [url]="'https://sensedevdocs.blob.core.windows.net/emails-data/3b11a836-c336-4fd7-a4df-d4dfc9459723/lr_model.pdf?se=2026-05-16T13%3A30%3A47Z&sp=r&sv=2025-07-05&sr=b&sig=J8pHMMvocdLvHU7c/2ZV8Gv8ldyO/zVbEU3SRbZJwro%3D'"></app-pdf-preview> -->

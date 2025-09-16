@@ -1,0 +1,115 @@
+<app-right-panel 
+  [isOpen]="isOpen" 
+  panelTitle="Inbox"
+  (close)="onClose()"
+>
+  <div class="inbox-container">
+    <!-- Email List -->
+    <div class="email-list" *ngIf="mails?.length; else noEmails">
+      <div 
+        class="email-item" 
+        *ngFor="let mail of mails; trackBy: trackByEmailId"
+        [class.expanded]="mail.expanded"
+        [class.unread]="isUnread(mail)"
+      >
+        <!-- Email Header (Always Visible) -->
+        <div class="email-header" (click)="toggleExpand(mail)">
+          <div class="sender-info">
+            <div class="avatar">
+              {{ getInitials(mail.mail_metadata.from_email_id) }}
+            </div>
+            <div class="email-details">
+              <div class="sender-name">{{ getSenderName(mail.mail_metadata.from_email_id) }}</div>
+              <div class="sender-email">{{ mail.mail_metadata.from_email_id }}</div>
+            </div>
+            <div class="expand-icon" [class.rotated]="mail.expanded">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          
+          <div class="email-meta">
+            <div class="subject">{{ mail.mail_metadata.subject }}</div>
+            <div class="date-time">{{ formatDate(mail.mail_metadata.mail_received_date) }}</div>
+          </div>
+        </div>
+
+        <!-- Email Body (Expandable) -->
+        <div class="email-body" *ngIf="mail.expanded">
+          <div class="email-recipients" *ngIf="mail.mail_metadata.to_addresses?.length">
+            <div class="recipient-row">
+              <span class="label">To:</span>
+              <span class="addresses">{{ mail.mail_metadata.to_addresses.join(', ') }}</span>
+            </div>
+            <div class="recipient-row" *ngIf="mail.mail_metadata.cc_addresses?.length">
+              <span class="label">CC:</span>
+              <span class="addresses">{{ mail.mail_metadata.cc_addresses.join(', ') }}</span>
+            </div>
+          </div>
+
+          <div class="email-content">
+            <!-- Updated to use body_html and sanitizeHtmlContent method -->
+            <div class="content-body" [innerHTML]="sanitizeHtmlContent(mail.mail_metadata.body_html)"></div>
+          </div>
+
+          <!-- Attachments -->
+          <div class="attachments-section" *ngIf="mail.mail_metadata.attachments?.length">
+            <div class="attachments-header">
+              <span>
+                {{ mail.mail_metadata.attachments?.length || 0 }}
+                attachment{{ (mail.mail_metadata.attachments?.length || 0) > 1 ? 's' : '' }}
+              </span>
+            </div>
+            
+            <div class="attachment-list">
+              <div 
+                class="attachment-item" 
+                *ngFor="let attachment of mail.mail_metadata.attachments"
+                (click)="downloadAttachment(attachment)"
+              >
+                <!-- <div class="attachment-icon">
+                  <img src="assets/icons/export-icon.svg" alt="">
+                </div>
+                <div class="attachment-info">
+                  <div class="attachment-name">{{ attachment.name }}</div>
+                  <div class="attachment-type">{{ getFileType(attachment.name) }}</div>
+                </div> -->
+                <!-- attachments.component.html -->
+  <div class="attachment-icon">
+    <img
+      [src]="getIconForFile(attachment?.name)"
+      [alt]="getFileTypeLabel(attachment?.name)"
+      width="30"
+      height="30"
+      loading="lazy"
+      (error)="onIconError($event)"
+    />
+  </div>
+
+  <div class="attachment-info">
+    <div class="attachment-name">{{ attachment.name }}</div>
+    <div class="attachment-type">{{ getFileTypeLabel(attachment.name) }}</div>
+  </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Emails State -->
+    <ng-template #noEmails>
+      <div class="no-emails">
+        <div class="no-emails-icon">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor" opacity="0.3">
+            <path d="M4 8h40v32H4V8zm36 4H8v24h32V12zm-2 4v16H10V16h28z"/>
+          </svg>
+        </div>
+        <h3>No emails found</h3>
+        <p>Your inbox is empty</p>
+      </div>
+    </ng-template>
+  </div>
+</app-right-panel>

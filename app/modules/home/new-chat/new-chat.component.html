@@ -1,0 +1,86 @@
+<div class="dashboard-container"><button class="back-button" (click)="goBack()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      
+    </button>
+  <div class="chat-area" [class.empty]="chatMessages.length === 0">
+
+    <!-- Header (always visible) -->
+    <div class="chat-header">
+      <h1 class="app-title">Sense</h1>
+      <p class="app-subtitle">AI-Powered Underwriting, Claims and Reinsurance Assistant</p>
+    </div>
+
+    <!-- Messages only if > 0 -->
+    <div class="chat-messages" #chatMessage *ngIf="chatMessages.length > 0">
+      <div *ngFor="let message of chatMessages; let i = index"
+           class="message-wrapper"
+           [class.user-message]="message.type === 'user'"
+           [class.bot-message]="message.type === 'bot'"
+           [style.animation-delay]="i * 0.3 + 's'">
+        <div class="message-bubble">
+          <div class="message-content">{{ message.content }}</div>
+        </div>
+          <!-- NEW: action icons -->
+       <div class="message-icons" 
+           [ngClass]="{'left-icons': message.type === 'bot', 'right-icons': message.type === 'user'}">
+        
+        <!-- Bot Icons -->
+        <ng-container *ngIf="message.type === 'bot'">
+          <!-- Copy Button -->
+<div class="icon-wrapper">
+  <button class="icon-btn" title="Copy" (click)="onCopyClick(message)">
+    <img src="assets/icons/copy-icon.svg" alt="Copy">
+  </button>
+  <span class="tooltip" *ngIf="copiedMessageId === message.id">Copied!</span>
+</div>
+
+<!-- <span class="tooltip" *ngIf="copiedMessageId === message.id">Copied!</span> -->
+
+          <button class="icon-btn" title="Share">
+            <img src="assets/icons/share-icon.svg" alt="Share">
+          </button>
+          <button class="icon-btn" title="Retry">
+            <img src="assets/icons/retry-icon.svg" alt="Retry">
+          </button>
+        </ng-container>
+
+        <!-- User Icons -->
+        <ng-container *ngIf="message.type === 'user'">
+          <!-- Copy Button -->
+<div class="icon-wrapper">
+  <button class="icon-btn" title="Copy" (click)="onCopyClick(message)">
+    <img src="assets/icons/copy-icon.svg" alt="Copy">
+  </button>
+  <span class="tooltip" *ngIf="copiedMessageId === message.id">Copied!</span>
+</div>
+
+<!-- <span class="tooltip" *ngIf="copiedMessageId === message.id">Copied!</span> -->
+
+          <button class="icon-btn" title="Edit">
+            <img src="assets/icons/edit-icon.svg" alt="Edit">
+          </button>
+        </ng-container>
+
+  </div>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="loading-messages" *ngIf="isLoading">
+      <div class="loading-bubble">
+        <div class="typing-indicator">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input -->
+    <app-chat-interface 
+      (messageSubmitted)="onSendMessage($event)"
+      [disabled]="isLoading">
+    </app-chat-interface>
+
+  </div>
+</div>

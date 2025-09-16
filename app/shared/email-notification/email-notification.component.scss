@@ -1,0 +1,87 @@
+:host {
+  display: block;
+  font-family: 'Inter', Arial, sans-serif;
+  color: #333;
+}
+
+h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 12px 0 8px;
+  color: #222;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 4px;
+}
+
+ul {
+  list-style: none;
+  margin: 0 0 12px 0;
+  padding: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fafafa;
+  max-height: 150px;
+  overflow-y: auto;
+
+  li {
+    padding: 8px 10px;
+    font-size: 14px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: #f5f5ff;
+    }
+
+    &.active {
+      background: #ede9fe;
+      border-left: 3px solid #6d28d9;
+      font-weight: 500;
+    }
+  }
+
+  li:last-child {
+    border-bottom: none;
+  }
+}
+
+.progress-container {
+  width: 100%;
+  background: #f3f4f6;
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 10px 0 16px;
+  border: 1px solid #e0e0e0;
+
+  .progress-bar {
+    height: 24px;
+    background: linear-gradient(90deg, #4caf50, #22c55e);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+    transition: width 0.3s ease;
+  }
+}
+
+.logs {
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 8px 10px;
+  background: #fff;
+  height: 180px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.4;
+
+  div {
+    padding: 4px 0;
+    border-bottom: 1px dashed #eee;
+  }
+
+  div:last-child {
+    border-bottom: none;
+  }
+}

@@ -1,0 +1,654 @@
+
+.loading-messages {
+  display: flex;
+  justify-content: flex-start;
+  padding: 16px 0;
+}
+
+.loading-bubble {
+  background: var(--primary-50);
+  border: 1px solid var(--primary-200);
+  border-radius: 16px;
+  padding: 16px 20px;
+  max-width: 80px;
+}
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+  
+  span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary-400);
+    animation: typing 1.4s infinite ease-in-out;
+    
+    &:nth-child(1) { animation-delay: 0s; }
+    &:nth-child(2) { animation-delay: 0.2s; }
+    &:nth-child(3) { animation-delay: 0.4s; }
+  }
+}
+.chat-messages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px 0;
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  margin-top: -30px;
+}
+
+.chat-messages::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+.message-wrapper {
+  animation: slideInUp 0.5s ease-out both;
+  &.bot-message {
+    align-self: flex-start;
+    text-align: left;
+  }
+
+  &.user-message {
+    align-self: flex-end;
+    text-align: left;
+  }
+}
+
+.message-bubble {
+  background: white;
+  border-radius: 10px;
+  padding: 5px 5px;
+  padding-left: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--gray-200);
+
+  .bot-message & {
+    background: var(--primary-50);
+    max-width: 800px;
+    border-color: var(--primary-200);
+  }
+
+  .user-message & {
+    background: #6155F5;
+    color: white;
+    border-color: var(--primary-600);
+  }
+}
+
+.message-content {
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+
+  .user-message & {
+    color: white;
+  }
+
+  &:hover .message-time {
+    visibility: visible;
+  }
+}
+
+.message-time {
+  font-size: 12px;
+  color: var(--gray-500);
+
+  .user-message & {
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.message-action {
+  margin-top: 12px;
+  float: right;
+
+  .action-btn {
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 8px;
+  }
+}
+
+.message-icons {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+
+  &.left-icons {
+    justify-content: flex-start;
+  }
+
+  &.right-icons {
+    justify-content: flex-end;
+  }
+
+  .icon-btn {
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 18px;
+      height: 18px;
+      opacity: 0.8;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+
+      &:hover {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+.message-actions {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.icon-btn:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  visibility: hidden;
+  position: absolute;
+  top: -28px; // above the button
+  right: 0; // align to top-right
+  background: #333;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  animation: fadeInOut 2s forwards;
+  pointer-events: none;
+}
+
+
+.loading-messages {
+  display: flex;
+  justify-content: flex-start;
+  padding: 16px 0;
+}
+
+.loading-bubble {
+  background: var(--primary-50);
+  border: 1px solid var(--primary-200);
+  border-radius: 16px;
+  padding: 16px 20px;
+  max-width: 80px;
+}
+
+app-chat-interface {
+  // position: sticky;
+  bottom: 0;
+  padding-top: 12px;
+  // margin-top: 700px;
+}
+::ng-deep .chat-interface{
+  margin-top: 690px;
+}
+.typing-indicator {
+  display: flex;
+  gap: 4px;
+
+  span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary-400);
+    animation: typing 1.4s infinite ease-in-out;
+
+    &:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+  }
+}
+
+
+.chat-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.dashboard-container {
+  max-width: 1000px;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  height: 600px;
+  overflow-y: scroll;
+
+
+  /* Center self inside viewport */
+  position: absolute;
+  top: 50%;
+  left: 42%;
+  transform: translate(-50%, -50%);
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  .dashboard-container::-webkit-scrollbar {
+    display: none;
+
+  }
+
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 50px;
+
+  .logo {
+    width: 60px;
+    margin-bottom: 8px;
+  }
+
+  .app-title {
+    font-size: 48px;
+    font-weight: 600;
+    background: linear-gradient(to right, #005AFF 20%, #C375FF 80%);
+    -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .app-subtitle {
+    font-size: 16px;
+    color: #666;
+  }
+}
+
+.summary-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+  cursor: pointer;
+
+  .card {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    border: none;
+    text-align: center;
+
+    .card-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 18px;
+      margin: 0 0 8px 0;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 14px;
+      color: #555;
+    }
+
+    img {
+      padding: 5px;
+    }
+  }
+}
+
+.watchlist {
+  margin-bottom: 82px;
+
+  h3 {
+    font-size: 18px;
+    margin-bottom: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid #b1a5ff;
+    padding-bottom: 10px;
+  }
+
+  .watchlist-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    align-items: center;
+
+    &:last-child {
+      padding-bottom: 20px;
+      border-bottom: 1px solid #b1a5ff;
+    }
+
+    .company {
+      font-weight: 600;
+      font-size: 15.3px;
+      flex: 1;
+    }
+
+    .details {
+      flex: 3;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .action {
+      margin-left: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      color: #666;
+    }
+  }
+}
+
+
+
+.back-button {
+  position: absolute;
+  gap: 8px;
+  padding: 8px 12px;
+  color: var(--gray-500);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  background-color: transparent;
+  margin-top: 25px;
+  margin-left: -10px;
+
+  &:hover {
+    color: var(--gray-800);
+  }
+}
+
+::ng-deep .message-content table {
+  border-collapse: separate;
+  border-spacing: 0.1px;
+  margin-top: 10px;
+  min-width: 600px;
+  /* force scroll if content is too wide */
+  width: 100%;
+  font-size: 14px;
+  border: 1px solid #9b7fb754;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  overflow: hidden;
+  /* keep rounded corners */
+}
+
+/* Header cells */
+::ng-deep .message-content th {
+  background: #f8f9fa;
+  font-weight: 600;
+  padding: 8px 12px;
+  text-align: left;
+  color: #333;
+  font-size: 13px;
+  border: 1px solid #4a91e224;
+
+}
+
+/* Data cells */
+::ng-deep .message-content td {
+  padding: 8px 12px;
+  text-align: left;
+  white-space: normal;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #444;
+  border: 1px solid #4a91e224;
+
+}
+
+/* Row hover effect */
+::ng-deep .message-content tr:hover td {
+  background-color: #fdfdfd;
+  transition: background 0.2s ease;
+}
+
+/* Zebra striping */
+::ng-deep .message-content tr:nth-child(even) td {
+  background: #fafafa;
+}
+
+::ng-deep .message-content tr:nth-child(odd) td {
+  background: #fafafa;
+}
+
+/* Last row no border */
+::ng-deep .message-content tr:last-child td {
+  border-bottom: none;
+}
+
+/* Actions under bot message */
+::ng-deep .actions {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  /* spacing between buttons */
+}
+
+
+.actions button {
+  display: inline-flex;
+  /* allow horizontal alignment */
+  align-items: center;
+  /* vertically center text & icon */
+  justify-content: space-between;
+  /* push arrow to the right */
+  gap: 6px;
+  width: auto;
+  background-color: transparent;
+  color: #6255f5dd;
+  border: none;
+  padding: 16px 14px;
+  font-size: 17px;
+  cursor: pointer;
+  border-top: 1px solid #6255f54a;
+  border-bottom: 1px solid #6255f54a;
+  margin-top: 5px;
+}
+
+.actions button .arrow-icon {
+  // flex-shrink: 0;             /* don't shrink icon */
+  transition: transform 0.2s ease;
+  // float: right;
+  margin-left: 100px;
+}
+
+.actions button:hover .arrow-icon {
+  transform: translateX(3px);
+}
+
+
+
+
+/* Actions container under bot message */
+.actions {
+  margin: 15px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Individual action buttons */
+.actions button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border: none;
+  background: white;
+  color: #2c3e50;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid #e9ecef;
+  width: 100%;
+}
+
+/* Remove border from last item */
+.actions button:last-of-type {
+  border-bottom: none;
+}
+
+/* Hover effect */
+.actions button:hover {
+  background: #f8f9fa;
+  color: #495057;
+}
+
+/* Arrow icon styling */
+.actions button .arrow-icon {
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+  margin-left: 12px;
+  stroke: #28a745;
+}
+
+/* Hover nudge + color change */
+.actions button:hover .arrow-icon {
+  transform: translateX(3px);
+  stroke: #20c997;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .actions {
+    margin: 10px;
+    border-radius: 8px;
+  }
+
+  .actions button {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+}
+
+.cta-container {
+  margin: 10px auto;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+.cta-actions-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.cta-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 8px;
+  border-top: 1px solid #d3b3ff;
+  border-bottom: 1px solid #d3b3ff;
+  border-left: none;
+  border-right: none;
+  background: transparent;
+  color: #2c3e50;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  // border-bottom: 1px solid #e9ecef;
+  position: relative;
+  line-height: 1.5;
+  width: 100%;
+}
+
+.cta-btn:last-of-type + .action-answer:not(.expanded) {
+  border-bottom: none;
+}
+
+.cta-btn:hover {
+  background: #f8f9fa71;
+  color: #495057;
+}
+
+.cta-btn::after {
+  content: '+';
+  font-size: 20px;
+  font-weight: 300;
+  color: #28a745;
+  transition: all 0.3s ease;
+  min-width: 24px;
+  text-align: center;
+  margin-left: 16px;
+  flex-shrink: 0;
+}
+
+.cta-btn:hover::after {
+  color: #20c997;
+  transform: scale(1.1);
+}
+
+
+::ng-deep .view-btn {
+  background-color: #0ea5e9; /* blue */
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  
+}
+
+::ng-deep .view-btn:hover {
+  background-color: #0369a1;
+}

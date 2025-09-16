@@ -1,0 +1,58 @@
+.home-layout {
+  display: flex;
+  height: 100vh;
+  // background-color: rgb(254, 251, 251);
+    // background: linear-gradient(to right, #0059ff1b 20%, #ffffff15 80%);
+    // background: linear-gradient(to right, #0059ff1b 20%, #0059ff1b 80%);
+    // background: linear-gradient(to right, #0059ff10 20%, #0059ff0f 80%);
+    // background: linear-gradient(to right, #0059ff04 20%, #0059ff08 80%);
+    // background-color: #ededf1a0;
+    background-color: #f4e5ff31;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  // margin-left: 64px; // Account for fixed sidebar
+  // margin-right: 320px; // Account for fixed right sidebar when visible
+   margin-left: 110px; // Account for fixed sidebar
+  margin-right: 370px; // Account for fixed right sidebar when visible
+  overflow-y: scroll;
+   &::-webkit-scrollbar {
+    display: none;
+  }
+
+}
+
+.content-area {
+  flex: 1;
+  // overflow-y: auto;
+  // margin-left: -42px;
+  margin-right: 30px;
+  
+}
+
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 64px;
+    margin-right: 0; // Remove right sidebar margin on mobile
+  }
+  
+  .toast-container {
+    top: 16px;
+    right: 16px;
+    left: 16px;
+  }
+}

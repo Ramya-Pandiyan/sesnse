@@ -1,0 +1,163 @@
+<!-- Main Left Sidebar -->
+<div class="sidebar-container">
+  <div class="main-sidebar">
+    <div class="sidebar-top">
+      <div class="company-logo">
+        <img src="assets/icons/logo.png" width="32" height="32" alt="Company Logo">
+      </div>
+      
+      <div class="sidebar-nav">
+        <button class="nav-item" (mouseenter)="openSubSidebar()" [class.active]="isSubSidebarOpen || isPinned">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="9,22 9,12 15,12 15,22" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <button class="nav-item" title="Add New" (click)="onNewChatClick()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <line x1="12" y1="5" x2="12" y2="19" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="5" y1="12" x2="19" y2="12" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+      <!-- Notification Bell -->
+<button class="nav-item notification-btn" title="Notifications" (click)="showModal = true">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"
+          stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M13.73 21a2 2 0 0 1-3.46 0"
+          stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+
+  <!-- Red dot -->
+  <span *ngIf="showNotificationIcon" class="notification-dot"></span>
+</button>
+
+
+<!-- Modal with EmailWorkflow inside -->
+<app-modal *ngIf="showModal" (closed)="showModal = false">
+  <app-email-workflow></app-email-workflow>
+</app-modal>
+
+      </div>
+    </div>
+    
+    <div class="sidebar-bottom">
+      <div class="user-profile" *ngIf="currentUser">
+        <div class="user-avatar">
+          {{ currentUser.firstName[0] || currentUser.username[0] | uppercase }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sub Sidebar -->
+  <div class="sub-sidebar" [class.open]="isSubSidebarOpen || isPinned" 
+     [class.pinned]="isPinned"
+     (mouseenter)="openSubSidebar()" 
+     (mouseleave)="closeSubSidebar()">
+       
+    <!-- Pin Button -->
+  <button class="pin-button" (click)="togglePin()" [class.pinned]="isPinned" title="Pin sidebar">
+  <ng-container *ngIf="!isPinned; else pinnedIcon">
+    <!-- Unpinned icon -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="#6155F5">
+      <path d="M16 3a1 1 0 0 1 .117 1.993l-.117 .007v4.764l1.894 3.789a1 1 0 0 1 .1 .331l.006 .116v2a1 1 0 0 1 -.883 .993l-.117 .007h-4v4a1 1 0 0 1 -1.993 .117l-.007 -.117v-4h-4a1 1 0 0 1 -.993 -.883l-.007 -.117v-2a1 1 0 0 1 .06 -.34l.046 -.107l1.894 -3.791v-4.762a1 1 0 0 1 -.117 -1.993l.117 -.007h8z"/>
+    </svg>
+  </ng-container>
+
+  <ng-template #pinnedIcon>
+    <!-- Pinned icon -->
+   <svg xmlns="http://www.w3.org/2000/svg" 
+       width="14" height="14" viewBox="0 0 24 24" 
+       fill="#6155F5" stroke="none" 
+       [style.transform]="isPinned ? 'rotate(45deg)' : 'none'"
+       style="transition: transform 0.2s ease">
+    <path d="M16 3a1 1 0 0 1 .117 1.993l-.117 .007v4.764l1.894 3.789a1 1 0 0 1 .1 .331l.006 .116v2a1 1 0 0 1 -.883 .993l-.117 .007h-4v4a1 1 0 0 1 -1.993 .117l-.007 -.117v-4h-4a1 1 0 0 1 -.993 -.883l-.007 -.117v-2a1 1 0 0 1 .06 -.34l.046 -.107l1.894 -3.791v-4.762a1 1 0 0 1 -.117 -1.993l.117 -.007h8z"/>
+  </svg>
+  </ng-template>
+</button>
+
+    
+    <div class="sub-sidebar-content">
+      <div class="sub-sidebar-header">
+        <div class="company-info">
+          <div class="company-logo-text">Sense</div>
+          <div class="company-name">by Bluepond.AI</div>
+        </div>
+      </div>
+      
+      <div class="sub-sidebar-section">
+        <h3 class="section-title">Home</h3>
+        <div class="category-list">
+          <button class="category-item" (click)="onUnderwritingClick()">
+            <span class="category-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <rect x="9" y="2" width="6" height="4" rx="1" ry="1" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="10" y1="13" x2="14" y2="13" stroke="#5245e4" stroke-width="1" stroke-linecap="round"/>
+                <line x1="10" y1="16" x2="16" y2="16" stroke="#5245e4" stroke-width="1" stroke-linecap="round"/>
+              </svg>
+            </span>
+            <span class="category-label">Underwriting</span>
+          </button>
+          <button class="category-item">
+            <span class="category-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 12l2 2 4-4" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="category-label">Claims</span>
+          </button>
+          <button class="category-item">
+            <span class="category-icon">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="#5245e4" xmlns="http://www.w3.org/2000/svg" class="icon">
+                <path d="M3.502 16.6663V13.3333C3.502 12.9661 3.79977 12.6683 4.16704 12.6683H7.50004L7.63383 12.682C7.93691 12.7439 8.16508 13.0119 8.16508 13.3333C8.16508 13.6547 7.93691 13.9227 7.63383 13.9847L7.50004 13.9984H5.47465C6.58682 15.2249 8.21842 16.0013 10 16.0013C13.06 16.0012 15.5859 13.711 15.9551 10.7513L15.9854 10.6195C16.0845 10.3266 16.3785 10.1334 16.6973 10.1732C17.0617 10.2186 17.3198 10.551 17.2745 10.9154L17.2247 11.2523C16.6301 14.7051 13.6224 17.3313 10 17.3314C8.01103 17.3314 6.17188 16.5383 4.83208 15.2474V16.6663C4.83208 17.0335 4.53411 17.3311 4.16704 17.3314C3.79977 17.3314 3.502 17.0336 3.502 16.6663ZM4.04497 9.24935C3.99936 9.61353 3.66701 9.87178 3.30278 9.8265C2.93833 9.78105 2.67921 9.44876 2.72465 9.08431L4.04497 9.24935ZM10 2.66829C11.9939 2.66833 13.8372 3.46551 15.1778 4.76204V3.33333C15.1778 2.96616 15.4757 2.66844 15.8428 2.66829C16.2101 2.66829 16.5079 2.96606 16.5079 3.33333V6.66634C16.5079 7.03361 16.2101 7.33138 15.8428 7.33138H12.5098C12.1425 7.33138 11.8448 7.03361 11.8448 6.66634C11.8449 6.29922 12.1426 6.0013 12.5098 6.0013H14.5254C13.4133 4.77488 11.7816 3.99841 10 3.99837C6.93998 3.99837 4.41406 6.28947 4.04497 9.24935L3.38481 9.16634L2.72465 9.08431C3.17574 5.46702 6.26076 2.66829 10 2.66829Z"></path>
+              </svg>
+            </span>
+            <span class="category-label">Reinsurance</span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="sub-sidebar-section library-section">
+        <h3 class="section-title">Library</h3>
+        <div class="chat-history">
+          <div *ngFor="let chat of chatHistory" class="chat-history-item">
+            <div class="chat-info" (click)="onChatHistoryClick(chat)">
+              <div class="chat-title">{{ chat.title }}</div>
+              <div class="chat-date">{{ chat.date | date:'MMM d, y' }}</div>
+            </div>
+
+            <div class="chat-menu">
+              <button class="menu-button" (click)="toggleMenu(chat, $event)">⋯</button>
+              <div *ngIf="chat.showMenu" class="menu-dropdown">
+                <button (click)="onDeleteChat(chat)">
+                  <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: 3px;" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-trash tabler-icon opacity-90"><path d="M4 7l16 0"></path><path d="M10 11l0 6"></path><path d="M14 11l0 6"></path><path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"></path><path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"></path></svg>
+                  &nbsp;&nbsp;Delete</button>
+                <button (click)="onShareChat(chat)">
+                <svg width="15" height="15" style="margin-top: 3px;" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="icon"><path d="M2.66821 12.6663V12.5003C2.66821 12.1331 2.96598 11.8353 3.33325 11.8353C3.70052 11.8353 3.99829 12.1331 3.99829 12.5003V12.6663C3.99829 13.3772 3.9992 13.8707 4.03052 14.2542C4.0612 14.6298 4.11803 14.8413 4.19849 14.9993L4.2688 15.1263C4.44511 15.4137 4.69813 15.6481 5.00024 15.8021L5.13013 15.8577C5.2739 15.9092 5.46341 15.947 5.74536 15.97C6.12888 16.0014 6.62221 16.0013 7.33325 16.0013H12.6663C13.3771 16.0013 13.8707 16.0014 14.2542 15.97C14.6295 15.9394 14.8413 15.8825 14.9993 15.8021L15.1262 15.7308C15.4136 15.5545 15.6481 15.3014 15.802 14.9993L15.8577 14.8695C15.9091 14.7257 15.9469 14.536 15.97 14.2542C16.0013 13.8707 16.0012 13.3772 16.0012 12.6663V12.5003C16.0012 12.1332 16.2991 11.8355 16.6663 11.8353C17.0335 11.8353 17.3313 12.1331 17.3313 12.5003V12.6663C17.3313 13.3553 17.3319 13.9124 17.2952 14.3626C17.2624 14.7636 17.1974 15.1247 17.053 15.4613L16.9866 15.6038C16.7211 16.1248 16.3172 16.5605 15.8215 16.8646L15.6038 16.9866C15.227 17.1786 14.8206 17.2578 14.3625 17.2952C13.9123 17.332 13.3553 17.3314 12.6663 17.3314H7.33325C6.64416 17.3314 6.0872 17.332 5.63696 17.2952C5.23642 17.2625 4.87552 17.1982 4.53931 17.054L4.39673 16.9866C3.87561 16.7211 3.43911 16.3174 3.13501 15.8216L3.01294 15.6038C2.82097 15.2271 2.74177 14.8206 2.70435 14.3626C2.66758 13.9124 2.66821 13.3553 2.66821 12.6663ZM9.33521 12.5003V4.9388L7.13696 7.13704C6.87732 7.39668 6.45625 7.39657 6.19653 7.13704C5.93684 6.87734 5.93684 6.45631 6.19653 6.19661L9.52954 2.86263L9.6311 2.77962C9.73949 2.70742 9.86809 2.66829 10.0002 2.66829C10.1763 2.66838 10.3454 2.73819 10.47 2.86263L13.804 6.19661C14.0633 6.45628 14.0634 6.87744 13.804 7.13704C13.5443 7.39674 13.1222 7.39674 12.8625 7.13704L10.6653 4.93977V12.5003C10.6651 12.8673 10.3673 13.1652 10.0002 13.1654C9.63308 13.1654 9.33538 12.8674 9.33521 12.5003Z"></path></svg>
+&nbsp;&nbsp;Share</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      
+      <div class="sub-sidebar-footer" *ngIf="currentUser">
+        <div class="user-info">
+          <div class="user-name">{{ currentUser.firstName || currentUser.lastName }}</div>
+          <button class="logout-btn" (click)="onLogout()" title="Logout">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="16,17 21,12 16,7" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="21" y1="12" x2="9" y2="12" stroke="#5245e4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    </div>

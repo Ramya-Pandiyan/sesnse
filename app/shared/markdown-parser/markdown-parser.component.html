@@ -1,0 +1,67 @@
+<div class="markdown-content">
+      <div *ngFor="let section of parsedContent; trackBy: trackBySection">
+        <!-- Headings -->
+        <h3 *ngIf="section.type === 'heading'" 
+            class="markdown-heading" 
+            [innerHTML]="section.content">
+        </h3>
+        
+        <!-- Paragraphs -->
+        <p *ngIf="section.type === 'paragraph'" 
+           class="markdown-paragraph" 
+           [innerHTML]="section.content">
+        </p>
+        
+        <!-- Lists -->
+        <div *ngIf="section.type === 'list'" class="markdown-list">
+          <ul class="bullet-list">
+            <li *ngFor="let item of getVisibleItems(section.content); let i = index" 
+                [innerHTML]="item"
+                class="bullet-item">
+            </li>
+          </ul>
+          
+          <button *ngIf="section.content.length > maxItems" 
+                  class="see-more-btn"
+                  (click)="toggleExpanded(section)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path *ngIf="!section.expanded" 
+                    d="M19 9l-7 7-7-7" 
+                    stroke="currentColor" 
+                    stroke-width="2" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round"/>
+              <path *ngIf="section.expanded" 
+                    d="M5 15l7-7 7 7" 
+                    stroke="currentColor" 
+                    stroke-width="2" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round"/>
+            </svg>
+            {{ section.expanded ? 'See Less' : 'See More' }}
+          </button>
+        </div>
+        
+        <!-- Follow-up Questions -->
+        <div *ngIf="section.type === 'followup'" class="followup-questions">
+          <div class="followup-header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12H9a2 2 0 0 0-2 2v.5a.5.5 0 0 1-.5.5h0a.5.5 0 0 1-.5-.5V14a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v.5a.5.5 0 0 1-.5.5h0a.5.5 0 0 1-.5-.5v-.5a2 2 0 0 0-2-2H11a2.5 2.5 0 1 0-2.5 2.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <span>What would you like me to help with next?</span>
+          </div>
+          <div class="followup-links">
+            <button *ngFor="let question of section.content" 
+                    class="followup-link"
+                    (click)="onFollowUpClick(question)">
+              <span class="question-number">{{ question.id }}</span>
+              <span class="question-text">{{ question.text }}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>

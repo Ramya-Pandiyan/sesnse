@@ -1,0 +1,234 @@
+* {
+  font-family: "Inter", sans-serif;
+}
+
+.right-sidebar {
+  width: 350px;
+  background: #fff;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #e5e7eb;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.05);
+  padding: 20px 10px;
+}
+
+.right-sidebar-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  border-bottom: 1px solid #f1f1f1;
+  min-height: 0; // unlock scrolling inside children
+  border: 1px solid #6255f52d;
+  margin: 3px;
+  border-radius: 5px;
+
+  &.watchlist {
+    height: 42%;
+  }
+
+  &.tabs {
+    height: 35%;
+  }
+
+  &.xxx {
+    height: 22%;
+  }
+
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #6155F5;
+    margin: 0 22px 8px;
+    flex-shrink: 0;
+  }
+
+  .tabs-nav {
+
+
+    display: inline-flex;
+    gap: 6px;
+    margin: 0 14px 8px;
+    border-bottom: 1px solid #e5e7eb;
+
+    .tab-btn {
+
+      padding: 8px 14px;
+      border: none;
+      background: transparent;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #BABABA;
+      white-space: nowrap; // stops "Approaching Deadline" from breaking
+      flex: none; // don’t force equal width
+
+      &:hover {
+        background: linear-gradient(90deg, #0059ff15, #c375ff1d);
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+      }
+
+      &.active {
+        color: #6155F5;
+        border-bottom: 2px solid #6155F5;
+      }
+    }
+  }
+
+  .submissions-container {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    margin: 0 14px;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+
+  }
+}
+
+.submission-card {
+  background: #f9f9fa;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #000;
+
+  &:hover {
+    background: linear-gradient(90deg, #0059ff15, #c375ff1d);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  .submission-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .submission-info {
+    flex: 0 0 85%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .reply-icon {
+    flex: 0 0 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    color: #6155f5;
+
+    img {
+      width: 25px;
+      height: 25px;
+      margin-right: 2px;
+    }
+
+    .reply-count {
+      font-size: 12px;
+      font-weight: 500;
+      color: #6155f5;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+.submissions-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.submissions-container::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.submissions-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.submission-meta,
+.submission-date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px; 
+  color: gray;
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.reply-icon {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  color: #6155F5;
+
+  img {
+    width: 16px;
+    height: 16px;
+    margin-right: 2px;
+  }
+
+  .reply-count {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6155F5;
+  }
+}
+
+.submission-name {
+  max-width: 300px;
+  color: #333;
+}
+
+.high-priority,
+.deadline {
+  margin: 8px;
+}
+
+.mail-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mail-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #f5f5f5;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}

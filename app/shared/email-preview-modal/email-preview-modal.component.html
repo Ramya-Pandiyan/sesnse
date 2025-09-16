@@ -1,0 +1,154 @@
+
+    <app-right-panel 
+      [isOpen]="isOpen" 
+      panelTitle="Email Composer"
+      (close)="onClose()"
+    >
+      <div class="email-composer" *ngIf="!isLoading && emailDraft">
+        <!-- Email Header Fields -->
+        <div class="email-fields">
+          <div class="email-field">
+            <label>To</label>
+            <input 
+              type="email" 
+              [(ngModel)]="emailDraft.to"
+              class="form-control"
+              placeholder="recipient@example.com"
+            />
+          </div>
+          
+          <div class="email-field">
+            <label>Subject</label>
+            <input 
+              type="text"
+              [(ngModel)]="emailDraft.subject"
+              class="form-control"
+              placeholder="Enter subject"
+            />
+          </div>
+        </div>
+
+        <!-- Formatting Toolbar -->
+        <div class="formatting-toolbar">
+          <div class="toolbar-group">
+            <button class="format-btn" (click)="formatText('bold')" [class.active]="isFormatActive('bold')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z" stroke="currentColor" stroke-width="2"/>
+                <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+            <button class="format-btn" (click)="formatText('italic')" [class.active]="isFormatActive('italic')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <line x1="19" y1="4" x2="10" y2="4" stroke="currentColor" stroke-width="2"/>
+                <line x1="14" y1="20" x2="5" y2="20" stroke="currentColor" stroke-width="2"/>
+                <line x1="15" y1="4" x2="9" y2="20" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+            <button class="format-btn" (click)="formatText('underline')" [class.active]="isFormatActive('underline')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3" stroke="currentColor" stroke-width="2"/>
+                <line x1="4" y1="21" x2="20" y2="21" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="toolbar-group">
+            <button class="format-btn" (click)="formatText('insertOrderedList')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <line x1="10" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
+                <line x1="10" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/>
+                <line x1="10" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2"/>
+                <path d="M4 6h1v4" stroke="currentColor" stroke-width="2"/>
+                <path d="M4 10h2" stroke="currentColor" stroke-width="2"/>
+                <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+            <button class="format-btn" (click)="formatText('insertUnorderedList')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <line x1="8" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2"/>
+                <line x1="8" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/>
+                <line x1="8" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2"/>
+                <line x1="3" y1="6" x2="3.01" y2="6" stroke="currentColor" stroke-width="2"/>
+                <line x1="3" y1="12" x2="3.01" y2="12" stroke="currentColor" stroke-width="2"/>
+                <line x1="3" y1="18" x2="3.01" y2="18" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="toolbar-group">
+            <input 
+              type="file" 
+              #fileInput 
+              (change)="onFileSelect($event)" 
+              multiple 
+              accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png"
+              style="display: none"
+            />
+            <button class="format-btn" (click)="fileInput.click()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.64 16.2a2 2 0 0 1-2.83-2.83l8.49-8.49" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Attachments -->
+        <div class="attachments" *ngIf="attachments.length > 0">
+          <div class="attachment" *ngFor="let file of attachments; let i = index">
+            <div class="attachment-info">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="currentColor" stroke-width="2"/>
+                <polyline points="14,2 14,8 20,8" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              <span>{{ file.name }}</span>
+              <small>({{ formatFileSize(file.size) }})</small>
+            </div>
+            <button class="remove-attachment" (click)="removeAttachment(i)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2"/>
+                <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Email Body Editor -->
+        <div class="email-body-editor">
+
+          <div 
+  class="rich-text-editor"
+  contenteditable="true"
+  [innerHTML]="emailDraft.body"
+  (input)="onBodyChange($event)"
+  #bodyEditor
+></div>
+
+
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="email-actions">
+          <button class="btn btn-secondary" (click)="onClose()">
+            Cancel
+          </button>
+          <button 
+            class="btn btn-primary"
+            (click)="onSend()"
+            [disabled]="isSending"
+          >
+            <span *ngIf="!isSending">Send Email</span>
+            <span *ngIf="isSending" class="loading-text">
+              <div class="spinner"></div>
+              Sending...
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-container" *ngIf="isLoading">
+        <div class="spinner large"></div>
+        <p>Loading email draft...</p>
+      </div>
+    </app-right-panel>
+  

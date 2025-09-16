@@ -1,0 +1,22 @@
+<div class="home-layout">
+  <app-sidebar (underwritingClicked)="onUnderwritingClicked()"></app-sidebar>
+  
+  <div class="main-content">
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  
+
+  <!-- Toast notifications -->
+  <div class="toast-container">
+    <div 
+      *ngFor="let toast of toasts" 
+      [class]="'toast ' + toast.type"
+      (click)="removeToast(toast.id)"
+    >
+      {{ toast.message }}
+    </div>
+  </div>
+</div>

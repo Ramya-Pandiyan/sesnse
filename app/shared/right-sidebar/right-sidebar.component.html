@@ -1,0 +1,100 @@
+<div class="right-sidebar">
+  <div class="right-sidebar-content">
+
+    <!-- Section 1: Watchlist -->
+    <div class="sidebar-section watchlist">
+      <h3 class="section-title">Submission Watchlist</h3>
+      <div class="submissions-container">
+        <div *ngFor="let submission of submissions.watchlist" class="submission-card"
+          (click)="onSubmissionClick(submission)">
+          <div class="submission-content">
+            <!-- Left side -->
+            <div class="submission-info">
+              <div class="submission-name">{{ submission.insuredName }}</div>
+              <div class="submission-date">
+                Last update {{ submission.receivedDate | date:'MMM d, y' }}
+              </div>
+            </div>
+
+            <!-- Right side (bell icon) -->
+            <div class="reply-icon" *ngIf="submission.reply_count && submission.reply_count > 0" (click)="onMailClick()">
+              <img src="assets/icons/bell-icon.svg" alt="">
+              <span class="reply-count">{{ submission.reply_count }}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 2: Tabs (High Priority, Deadline, All) -->
+    <div class="sidebar-section tabs">
+      <div class="tabs-nav">
+        <button class="tab-btn" [class.active]="activeTab === 'needs-review'" (click)="setActiveTab('needs-review')">
+          High Priority
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'due-today'" (click)="setActiveTab('due-today')">
+          Approaching Deadline
+        </button>
+      </div>
+
+      <div class="submissions-container">
+        <!-- High Priority -->
+        <div *ngIf="activeTab === 'needs-review'">
+          <div *ngFor="let submission of submissions.needsReview" class="submission-card high-priority"
+            (click)="onSubmissionClick(submission)">
+            <div class="submission-name">{{ submission.insuredName }}</div>
+            <div class="submission-meta">
+              <span class="submission-time">
+                Last update {{ submission.receivedDate | date:'MMM d, y' }}
+              </span>
+              <div class="reply-icon" *ngIf="submission.reply_count && submission.reply_count > 0">
+                <img src="assets/icons/bell-icon.svg" alt="">
+                <span class="reply-count">{{ submission.reply_count }}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Deadline -->
+        <div *ngIf="activeTab === 'due-today'">
+          <div *ngFor="let submission of submissions.dueToday" class="submission-card deadline"
+            (click)="onSubmissionClick(submission)">
+            <div class="submission-name">{{ submission.insuredName }}</div>
+            <div class="submission-meta">
+              <span class="submission-time">
+                Deadline: {{ submission.receivedDate | date:'MMM d, y' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- All Submissions -->
+        <div *ngIf="activeTab === 'all'">
+          <div *ngFor="let submission of submissions.all" class="submission-card"
+            (click)="onSubmissionClick(submission)">
+            <div class="submission-name">{{ submission.insuredName }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: XXX (hardcoded for now) -->
+    <div class="sidebar-section xxx">
+      <h3 class="section-title" style="font-size: 15px;">Review Requests</h3>
+      <div class="submissions-container">
+        <div class="submission-card">Chemco Corporation
+          <div class="submission-date">
+            Request from John Doe
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<app-email-inbox-panel 
+  [isOpen]="isMailInboxOpen" ></app-email-inbox-panel>
